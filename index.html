@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KariPap Delights – Authentic Malaysian Curry Puffs</title>
+  <meta name="description" content="Premium frozen karipap delivered fresh to your door. Order online from KariPap Delights." />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Animate.css CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <!-- HugeIcons CDN -->
+  <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { fontFamily: { inter: ['Inter', 'sans-serif'] } } }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+
+    *, *::before, *::after {
+      transition: background-color 0.25s ease, color 0.25s ease,
+                  border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    /* Page background */
+    .page-bg { background-color: #EDE0D4; }
+    .dark .page-bg { background-color: #1c1410; }
+
+    /* Cards */
+    .card { background-color: #FEFAF6; border-radius: 18px; box-shadow: 0 2px 14px rgba(0,0,0,.07); }
+    .dark .card { background-color: #2A211A; box-shadow: 0 2px 14px rgba(0,0,0,.35); }
+
+    .menu-card { background-color: #FEFAF6; border-radius: 14px; box-shadow: 0 1px 6px rgba(0,0,0,.06); }
+    .dark .menu-card { background-color: #2A211A; box-shadow: 0 1px 6px rgba(0,0,0,.28); }
+
+    .contact-row { background-color: #F3EAE0; border-radius: 12px; }
+    .dark .contact-row { background-color: #231a14; }
+
+    /* Icon circles */
+    .icon-circle {
+      background-color: #F5E9D8; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .dark .icon-circle { background-color: #3D2E21; }
+
+    /* Navbar */
+    .nav-bar { background-color: #F4EDE2; border-bottom: 1px solid rgba(0,0,0,.06); }
+    .dark .nav-bar { background-color: #201610; border-bottom: 1px solid rgba(255,255,255,.06); }
+
+    /* Toggle btn */
+    .toggle-btn {
+      background-color: #E5D9CB; border-radius: 999px; border: none;
+      width: 38px; height: 38px;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+    }
+    .dark .toggle-btn { background-color: #3D2E21; }
+
+    /* Add button */
+    .btn-add {
+      background-color: #C87A00; color: #fff;
+      border-radius: 999px; font-size: .78rem; font-weight: 600;
+      padding: 6px 16px; display: inline-flex; align-items: center; gap: 4px;
+      cursor: pointer; border: none; white-space: nowrap;
+      transition: background-color .2s, transform .15s;
+    }
+    .btn-add:hover  { background-color: #a86500; transform: scale(1.05); }
+    .btn-add:active { transform: scale(.96); }
+
+    /* Cart FAB */
+    .cart-fab {
+      position: fixed; bottom: 28px; right: 28px; z-index: 50;
+      width: 58px; height: 58px; background-color: #2ECC71;
+      border-radius: 50%; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(46,204,113,.45);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .cart-fab:hover  { transform: scale(1.1); box-shadow: 0 6px 24px rgba(46,204,113,.55); }
+    .cart-fab:active { transform: scale(.95); }
+
+    /* Cart badge */
+    .cart-badge {
+      position: absolute; top: -4px; right: -4px;
+      background-color: #e74c3c; color: #fff;
+      border-radius: 999px; min-width: 20px; height: 20px;
+      font-size: .7rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 4px;
+    }
+
+    /* ── Cart Drawer ─────────────────────────────────── */
+    .cart-overlay {
+      position: fixed; inset: 0; z-index: 60;
+      background: rgba(0,0,0,.4);
+      backdrop-filter: blur(3px);
+      display: flex; align-items: flex-end; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s ease;
+    }
+    .cart-overlay.open { opacity: 1; pointer-events: all; }
+
+    .cart-drawer {
+      width: 100%; max-width: 580px;
+      background: #FEFAF6;
+      border-radius: 24px 24px 0 0;
+      padding: 0 0 env(safe-area-inset-bottom);
+      box-shadow: 0 -8px 40px rgba(0,0,0,.18);
+      transform: translateY(100%);
+      transition: transform .35s cubic-bezier(.32,.72,0,1);
+      max-height: 88vh;
+      display: flex; flex-direction: column;
+    }
+    .dark .cart-drawer { background: #2A211A; }
+
+    .cart-overlay.open .cart-drawer { transform: translateY(0); }
+
+    /* Drag handle */
+    .drawer-handle {
+      width: 40px; height: 4px; border-radius: 999px;
+      background: #D9C9B8; margin: 14px auto 0;
+    }
+    .dark .drawer-handle { background: #4a3828; }
+
+    /* Cart item row */
+    .cart-item-row {
+      background: #F3EAE0; border-radius: 12px;
+    }
+    .dark .cart-item-row { background: #231a14; }
+
+    /* Qty btn */
+    .qty-btn {
+      width: 28px; height: 28px; border-radius: 8px; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: .9rem;
+      background: #E5D9CB; color: #3d2d1e;
+      transition: background .15s, transform .1s;
+      flex-shrink: 0;
+    }
+    .dark .qty-btn { background: #3D2E21; color: #F5E9D8; }
+    .qty-btn:hover  { background: #C87A00; color: #fff; }
+    .qty-btn:active { transform: scale(.9); }
+
+    /* Checkout button */
+    .btn-checkout {
+      background: linear-gradient(135deg, #C87A00 0%, #E59500 100%);
+      color: #fff; border: none; border-radius: 14px;
+      font-size: .93rem; font-weight: 700;
+      padding: 14px 24px; cursor: pointer; width: 100%;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      box-shadow: 0 4px 16px rgba(200,122,0,.35);
+      transition: opacity .2s, transform .15s;
+    }
+    .btn-checkout:hover  { opacity: .92; transform: translateY(-1px); }
+    .btn-checkout:active { transform: scale(.98); }
+
+    /* Colours */
+    .text-heading  { color: #1a1208; }
+    .dark .text-heading  { color: #F5E9D8; }
+    .text-sub      { color: #6b5e50; }
+    .dark .text-sub      { color: #a8917c; }
+    .text-price    { color: #C87A00; font-weight: 700; font-size: .94rem; }
+    .text-brand    { color: #C87A00; font-weight: 700; font-size: 1.08rem; }
+    .contact-text  { color: #3d2d1e; font-size: .93rem; }
+    .dark .contact-text  { color: #c4a882; }
+    .section-title { color: #1a1208; font-size: 1.05rem; font-weight: 700; margin-bottom: 14px; }
+    .dark .section-title { color: #F5E9D8; }
+
+    /* Reveal */
+    .reveal { opacity: 0; }
+    .reveal.shown { opacity: 1; }
+
+    /* Toast */
+    @keyframes slideUp   { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes slideDown { from { opacity:1; transform:translateY(0); } to { opacity:0; transform:translateY(14px); } }
+    .toast-in  { animation: slideUp   .3s ease forwards; }
+    .toast-out { animation: slideDown .3s ease forwards; }
+
+    /* Empty cart illustration */
+    .empty-cart { padding: 40px 0; text-align: center; }
+
+    /* ── Confirmation Modal ─────────────────────────── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 70;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s ease;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+    .modal-box {
+      background: #FEFAF6;
+      border-radius: 24px;
+      width: 100%; max-width: 420px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+      transform: scale(.92) translateY(20px);
+      transition: transform .35s cubic-bezier(.32,.72,0,1);
+      overflow: hidden;
+      max-height: 90vh;
+      display: flex; flex-direction: column;
+    }
+    .dark .modal-box { background: #2A211A; }
+    .modal-overlay.open .modal-box { transform: scale(1) translateY(0); }
+
+    .modal-header {
+      background: linear-gradient(135deg,#C87A00 0%,#E59500 100%);
+      padding: 20px 22px 18px;
+      position: relative;
+    }
+
+    .modal-order-row {
+      background: #F3EAE0;
+      border-radius: 12px;
+    }
+    .dark .modal-order-row { background: #231a14; }
+
+    .btn-wa {
+      background: linear-gradient(135deg,#25D366 0%,#128C7E 100%);
+      color: #fff; border: none; border-radius: 14px;
+      font-size: .95rem; font-weight: 700;
+      padding: 14px 24px; cursor: pointer; width: 100%;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      box-shadow: 0 4px 18px rgba(37,211,102,.4);
+      transition: opacity .2s, transform .15s;
+    }
+    .btn-wa:hover  { opacity: .92; transform: translateY(-1px); }
+    .btn-wa:active { transform: scale(.98); }
+
+    .btn-back {
+      background: #F3EAE0; color: #6b5e50; border: none; border-radius: 14px;
+      font-size: .85rem; font-weight: 600;
+      padding: 11px 24px; cursor: pointer; width: 100%;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: background .2s;
+    }
+    .dark .btn-back { background: #3D2E21; color: #c4a882; }
+    .btn-back:hover { background: #EDE0D4; }
+    .dark .btn-back:hover { background: #4a3828; }
+  </style>
+</head>
+
+<body class="page-bg font-inter min-h-screen">
+
+  <!-- ── Navbar ─────────────────────────────────── -->
+  <header class="nav-bar sticky top-0 z-40 px-5 py-3">
+    <div class="max-w-xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="icon-circle w-9 h-9">
+          <i class="hgi hgi-stroke hgi-restaurant text-[#C87A00] text-lg"></i>
+        </div>
+        <span class="text-brand">KariPap Delights</span>
+      </div>
+      <button id="themeToggle" class="toggle-btn" aria-label="Toggle dark mode">
+        <i id="themeIcon" class="hgi hgi-stroke hgi-moon text-[#6b5e50] text-base"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── Main content ─────────────────────────── -->
+  <main class="max-w-xl mx-auto px-4 py-6 space-y-6">
+
+    <!-- Hero -->
+    <section class="card p-8 text-center animate__animated animate__fadeInDown">
+      <div class="icon-circle w-16 h-16 mx-auto mb-5">
+        <i class="hgi hgi-stroke hgi-serving-food text-[#C87A00] text-2xl"></i>
+      </div>
+      <h1 class="text-heading text-2xl font-extrabold leading-snug mb-3">Authentic Malaysian Curry Puffs</h1>
+      <p class="text-sub text-sm leading-relaxed">Premium frozen karipap delivered fresh to your door</p>
+    </section>
+
+    <!-- Menu -->
+    <section class="reveal">
+      <h2 class="section-title">Our Delicious Menu</h2>
+      <div class="space-y-3">
+
+        <div class="menu-card px-4 py-3 flex items-center gap-4 animate__animated animate__fadeInUp" style="animation-delay:.05s">
+          <div class="icon-circle w-11 h-11"><i class="hgi hgi-stroke hgi-chicken-thighs text-[#C87A00] text-xl"></i></div>
+          <div class="flex-1 min-w-0">
+            <p class="text-heading font-bold text-sm">Chicken Curry Puff</p>
+            <p class="text-sub text-xs mt-0.5">Traditional chicken curry filling</p>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <span class="text-price">RM 2.50</span>
+            <button class="btn-add" onclick="addToCart('Chicken Curry Puff',2.50,'hgi-chicken-thighs')">
+              <i class="hgi hgi-stroke hgi-add-01 text-xs"></i> Add
+            </button>
+          </div>
+        </div>
+
+        <div class="menu-card px-4 py-3 flex items-center gap-4 animate__animated animate__fadeInUp" style="animation-delay:.10s">
+          <div class="icon-circle w-11 h-11"><i class="hgi hgi-stroke hgi-steak text-[#C87A00] text-xl"></i></div>
+          <div class="flex-1 min-w-0">
+            <p class="text-heading font-bold text-sm">Beef Curry Puff</p>
+            <p class="text-sub text-xs mt-0.5">Rich beef curry with tender meat</p>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <span class="text-price">RM 3.00</span>
+            <button class="btn-add" onclick="addToCart('Beef Curry Puff',3.00,'hgi-steak')">
+              <i class="hgi hgi-stroke hgi-add-01 text-xs"></i> Add
+            </button>
+          </div>
+        </div>
+
+        <div class="menu-card px-4 py-3 flex items-center gap-4 animate__animated animate__fadeInUp" style="animation-delay:.15s">
+          <div class="icon-circle w-11 h-11"><i class="hgi hgi-stroke hgi-leaf-01 text-[#C87A00] text-xl"></i></div>
+          <div class="flex-1 min-w-0">
+            <p class="text-heading font-bold text-sm">Vegetable Curry Puff</p>
+            <p class="text-sub text-xs mt-0.5">Mixed vegetables in curry sauce</p>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <span class="text-price">RM 2.00</span>
+            <button class="btn-add" onclick="addToCart('Vegetable Curry Puff',2.00,'hgi-leaf-01')">
+              <i class="hgi hgi-stroke hgi-add-01 text-xs"></i> Add
+            </button>
+          </div>
+        </div>
+
+        <div class="menu-card px-4 py-3 flex items-center gap-4 animate__animated animate__fadeInUp" style="animation-delay:.20s">
+          <div class="icon-circle w-11 h-11"><i class="hgi hgi-stroke hgi-fish-food text-[#C87A00] text-xl"></i></div>
+          <div class="flex-1 min-w-0">
+            <p class="text-heading font-bold text-sm">Sardine Curry Puff</p>
+            <p class="text-sub text-xs mt-0.5">Flaky sardines in spicy curry</p>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <span class="text-price">RM 2.75</span>
+            <button class="btn-add" onclick="addToCart('Sardine Curry Puff',2.75,'hgi-fish-food')">
+              <i class="hgi hgi-stroke hgi-add-01 text-xs"></i> Add
+            </button>
+          </div>
+        </div>
+
+        <div class="menu-card px-4 py-3 flex items-center gap-4 animate__animated animate__fadeInUp" style="animation-delay:.25s">
+          <div class="icon-circle w-11 h-11"><i class="hgi hgi-stroke hgi-apple text-[#C87A00] text-xl"></i></div>
+          <div class="flex-1 min-w-0">
+            <p class="text-heading font-bold text-sm">Sweet Potato Puff</p>
+            <p class="text-sub text-xs mt-0.5">Sweet potato with cinnamon</p>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <span class="text-price">RM 2.25</span>
+            <button class="btn-add" onclick="addToCart('Sweet Potato Puff',2.25,'hgi-apple')">
+              <i class="hgi hgi-stroke hgi-add-01 text-xs"></i> Add
+            </button>
+          </div>
+        </div>
+
+        <div class="menu-card px-4 py-3 flex items-center gap-4 animate__animated animate__fadeInUp" style="animation-delay:.30s">
+          <div class="icon-circle w-11 h-11"><i class="hgi hgi-stroke hgi-gift text-[#C87A00] text-xl"></i></div>
+          <div class="flex-1 min-w-0">
+            <p class="text-heading font-bold text-sm">Combo Pack</p>
+            <p class="text-sub text-xs mt-0.5">Assorted flavors (30 pieces)</p>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <span class="text-price">RM 25.00</span>
+            <button class="btn-add" onclick="addToCart('Combo Pack',25.00,'hgi-gift')">
+              <i class="hgi hgi-stroke hgi-add-01 text-xs"></i> Add
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="card p-5 reveal">
+      <h2 class="text-heading font-bold text-base mb-4">Get In Touch</h2>
+      <div class="space-y-3">
+        <div class="contact-row flex items-center gap-3 px-4 py-3">
+          <i class="hgi hgi-stroke hgi-telephone text-[#C87A00] text-xl flex-shrink-0"></i>
+          <span class="contact-text">+60 3-1234 5678</span>
+        </div>
+        <div class="contact-row flex items-center gap-3 px-4 py-3">
+          <i class="hgi hgi-stroke hgi-location-01 text-[#C87A00] text-xl flex-shrink-0"></i>
+          <span class="contact-text">No. 123, Jalan Merdeka, KL</span>
+        </div>
+        <div class="contact-row flex items-center gap-3 px-4 py-3">
+          <i class="hgi hgi-stroke hgi-clock-01 text-[#C87A00] text-xl flex-shrink-0"></i>
+          <span class="contact-text">Mon-Sat: 9AM-7PM</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="h-20"></div>
+  </main>
+
+  <!-- ── Floating Cart FAB ─────────────────────── -->
+  <button class="cart-fab animate__animated animate__bounceIn"
+          id="cartBtn"
+          onclick="openCart()"
+          aria-label="View cart">
+    <i class="hgi hgi-stroke hgi-shopping-cart-01 text-white text-xl"></i>
+    <span class="cart-badge" id="cartBadge">0</span>
+  </button>
+
+  <!-- ── Cart Drawer Overlay ──────────────────── -->
+  <div id="cartOverlay" class="cart-overlay" onclick="handleOverlayClick(event)">
+    <div class="cart-drawer" id="cartDrawer">
+
+      <!-- Handle -->
+      <div class="drawer-handle"></div>
+
+      <!-- Header -->
+      <div class="flex items-center justify-between px-5 pt-4 pb-3 flex-shrink-0">
+        <div class="flex items-center gap-2">
+          <div class="icon-circle w-9 h-9">
+            <i class="hgi hgi-stroke hgi-shopping-cart-01 text-[#C87A00] text-lg"></i>
+          </div>
+          <div>
+            <h2 class="text-heading font-bold text-base leading-tight">My Cart</h2>
+            <p id="cartItemCount" class="text-sub text-xs">0 items</p>
+          </div>
+        </div>
+        <button onclick="closeCart()"
+                class="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer border-none"
+                style="background:#F3EAE0"
+                aria-label="Close cart">
+          <i class="hgi hgi-stroke hgi-cancel-01 text-[#6b5e50] text-base"></i>
+        </button>
+      </div>
+
+      <!-- Divider -->
+      <div class="h-px mx-5 flex-shrink-0" style="background:#EDE0D4"></div>
+
+      <!-- Cart items (scrollable) -->
+      <div id="cartItems" class="flex-1 overflow-y-auto px-5 py-3 space-y-3 min-h-0">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Footer: total + checkout -->
+      <div class="flex-shrink-0 px-5 pb-6 pt-3 space-y-4">
+        <div class="h-px" style="background:#EDE0D4"></div>
+
+        <div class="flex items-center justify-between">
+          <span class="text-sub text-sm font-medium">Total</span>
+          <span id="cartTotal" class="text-heading font-extrabold text-lg">RM 0.00</span>
+        </div>
+
+        <button class="btn-checkout" onclick="openConfirmation()">
+          <i class="hgi hgi-stroke hgi-shopping-bag-01 text-white text-lg"></i>
+          Checkout
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Toast Notification ───────────────────── -->
+  <div id="toast"
+       class="fixed bottom-28 right-4 z-50 pointer-events-none hidden
+              flex items-center gap-3
+              bg-white dark:bg-[#2A211A]
+              border border-orange-100 dark:border-[#3D2E21]
+              shadow-xl rounded-2xl px-4 py-3 max-w-[260px]">
+    <div class="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/40
+                flex items-center justify-center flex-shrink-0">
+      <i class="hgi hgi-stroke hgi-checkmark-circle-01 text-green-600 dark:text-green-400 text-base"></i>
+    </div>
+    <div class="flex-1 min-w-0">
+      <p id="toastTitle" class="text-[#1a1208] dark:text-[#F5E9D8] font-semibold text-xs leading-tight">Added to cart!</p>
+      <p id="toastMsg" class="text-[#6b5e50] dark:text-[#a8917c] text-[11px] mt-0.5 leading-tight truncate"></p>
+    </div>
+  </div>
+
+  <!-- ── Order Confirmation Modal ────────────── -->
+  <div id="confirmOverlay" class="modal-overlay" onclick="handleConfirmOverlayClick(event)">
+    <div class="modal-box" id="confirmBox">
+
+      <!-- Gradient header -->
+      <div class="modal-header flex-shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+            <i class="hgi hgi-stroke hgi-checkmark-circle-02 text-white text-xl"></i>
+          </div>
+          <div>
+            <h3 class="text-white font-extrabold text-base leading-tight">Order Confirmation</h3>
+            <p class="text-orange-100 text-xs mt-0.5">Please review before sending</p>
+          </div>
+        </div>
+        <button onclick="closeConfirmation()"
+                class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/20 border-none cursor-pointer
+                       flex items-center justify-center hover:bg-white/30 transition-colors"
+                aria-label="Close">
+          <i class="hgi hgi-stroke hgi-cancel-01 text-white text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Order summary (scrollable) -->
+      <div class="flex-1 overflow-y-auto px-5 py-4 space-y-3 min-h-0">
+
+        <!-- Shop info banner -->
+        <div class="flex items-center gap-3 rounded-xl px-4 py-3"
+             style="background:linear-gradient(135deg,#FFF5E6,#FFE2B0)">
+          <div class="icon-circle w-9 h-9" style="background:#FFD580">
+            <i class="hgi hgi-stroke hgi-restaurant text-[#C87A00] text-lg"></i>
+          </div>
+          <div>
+            <p class="text-[#7a4a00] font-bold text-sm leading-tight">KariPap Delights</p>
+            <p class="text-[#a86500] text-xs">No. 123, Jalan Merdeka, KL</p>
+          </div>
+        </div>
+
+        <!-- Items heading -->
+        <p class="text-sub text-xs font-semibold uppercase tracking-wider px-1">Your Items</p>
+
+        <!-- Item rows (populated by JS) -->
+        <div id="confirmItems" class="space-y-2"></div>
+
+        <!-- Totals -->
+        <div class="rounded-xl overflow-hidden" style="border:1.5px solid #EDE0D4">
+          <div class="flex justify-between items-center px-4 py-2.5">
+            <span class="text-sub text-sm">Subtotal</span>
+            <span id="confirmSubtotal" class="text-heading font-semibold text-sm"></span>
+          </div>
+          <div class="h-px mx-4" style="background:#EDE0D4"></div>
+          <div class="flex justify-between items-center px-4 py-3">
+            <span class="text-heading font-bold text-sm">Total</span>
+            <span id="confirmTotal" class="font-extrabold text-base" style="color:#C87A00"></span>
+          </div>
+        </div>
+
+        <!-- WhatsApp message preview -->
+        <div>
+          <p class="text-sub text-xs font-semibold uppercase tracking-wider px-1 mb-2">Message Preview</p>
+          <div class="rounded-xl px-4 py-3 space-y-1"
+               style="background:#E8F5E9;border:1.5px solid #C8E6C9">
+            <div class="flex gap-2 items-start">
+              <i class="hgi hgi-stroke hgi-whatsapp text-green-600 text-base flex-shrink-0 mt-0.5"></i>
+              <pre id="msgPreview"
+                   class="text-green-900 text-xs leading-relaxed whitespace-pre-wrap font-sans flex-1"></pre>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Action buttons -->
+      <div class="flex-shrink-0 px-5 py-4 space-y-2.5">
+        <div class="h-px" style="background:#EDE0D4"></div>
+        <button class="btn-wa" onclick="sendToWhatsApp()">
+          <!-- WhatsApp SVG logo -->
+          <svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 0C7.163 0 0 7.163 0 16c0 2.822.736 5.477 2.027 7.789L.057 31.943l8.371-1.949A15.929 15.929 0 0016 32c8.837 0 16-7.163 16-16S24.837 0 16 0z" fill="#25D366"/>
+            <path d="M23.6 19.847c-.321-.161-1.9-.934-2.194-1.041-.294-.107-.508-.161-.722.161-.214.322-.83 1.041-1.017 1.255-.188.214-.375.241-.696.08-.321-.161-1.355-.499-2.58-1.591-.954-.85-1.598-1.9-1.786-2.221-.188-.322-.02-.496.141-.656.145-.144.321-.375.482-.563.16-.188.214-.322.321-.536.107-.214.054-.402-.027-.563-.08-.161-.722-1.74-.988-2.383-.26-.626-.524-.541-.722-.551-.187-.009-.401-.011-.615-.011-.214 0-.562.08-.856.402-.294.322-1.124 1.098-1.124 2.677 0 1.58 1.151 3.107 1.312 3.321.16.214 2.267 3.46 5.492 4.851.768.331 1.367.529 1.834.677.77.245 1.471.21 2.025.127.617-.092 1.9-.777 2.167-1.527.268-.75.268-1.393.188-1.527-.08-.134-.294-.214-.616-.375z" fill="#fff"/>
+          </svg>
+          Send Order via WhatsApp
+        </button>
+        <button class="btn-back" onclick="closeConfirmation()">
+          <i class="hgi hgi-stroke hgi-arrow-left-01 text-base"></i>
+          Back to Cart
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Scripts ────────────────────────────── -->
+  <script>
+    /* ── Dark / Light Mode ─────────────────── */
+    const html        = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon   = document.getElementById('themeIcon');
+
+    if (localStorage.getItem('karipap-theme') === 'dark') applyDark();
+
+    themeToggle.addEventListener('click', () =>
+      html.classList.contains('dark') ? applyLight() : applyDark()
+    );
+    function applyDark() {
+      html.classList.add('dark');
+      themeIcon.className = 'hgi hgi-stroke hgi-sun-01 text-[#c4a882] text-base';
+      localStorage.setItem('karipap-theme', 'dark');
+    }
+    function applyLight() {
+      html.classList.remove('dark');
+      themeIcon.className = 'hgi hgi-stroke hgi-moon text-[#6b5e50] text-base';
+      localStorage.setItem('karipap-theme', 'light');
+    }
+
+    /* ── Cart state ────────────────────────── */
+    // cart = [{ name, price, icon, qty }]
+    let cart = [];
+
+    const cartBadge     = document.getElementById('cartBadge');
+    const cartBtn       = document.getElementById('cartBtn');
+    const cartOverlay   = document.getElementById('cartOverlay');
+    const cartItemsEl   = document.getElementById('cartItems');
+    const cartTotalEl   = document.getElementById('cartTotal');
+    const cartItemCount = document.getElementById('cartItemCount');
+
+    function getTotalQty()   { return cart.reduce((s, i) => s + i.qty, 0); }
+    function getTotalPrice() { return cart.reduce((s, i) => s + i.price * i.qty, 0); }
+
+    /* Add item */
+    function addToCart(name, price, icon) {
+      const existing = cart.find(i => i.name === name);
+      if (existing) { existing.qty++; }
+      else           { cart.push({ name, price, icon, qty: 1 }); }
+
+      updateBadge();
+
+      /* Animate FAB */
+      cartBtn.classList.remove('animate__animated','animate__rubberBand');
+      void cartBtn.offsetWidth;
+      cartBtn.classList.add('animate__animated','animate__rubberBand');
+
+      showToast(name);
+    }
+
+    /* Update badge */
+    function updateBadge() {
+      const total = getTotalQty();
+      cartBadge.textContent = total;
+    }
+
+    /* Change qty from drawer */
+    function changeQty(name, delta) {
+      const idx = cart.findIndex(i => i.name === name);
+      if (idx === -1) return;
+      cart[idx].qty += delta;
+      if (cart[idx].qty <= 0) cart.splice(idx, 1);
+      updateBadge();
+      renderCart();
+    }
+
+    /* Remove item */
+    function removeItem(name) {
+      cart = cart.filter(i => i.name !== name);
+      updateBadge();
+      renderCart();
+    }
+
+    /* Render cart drawer content */
+    function renderCart() {
+      const total = getTotalQty();
+      cartItemCount.textContent = total === 0 ? '0 items'
+        : total === 1 ? '1 item' : `${total} items`;
+      cartTotalEl.textContent = 'RM ' + getTotalPrice().toFixed(2);
+
+      if (cart.length === 0) {
+        cartItemsEl.innerHTML = `
+          <div class="empty-cart">
+            <div class="icon-circle w-20 h-20 mx-auto mb-4" style="background:#F3EAE0">
+              <i class="hgi hgi-stroke hgi-shopping-cart-01 text-[#C87A00] text-4xl"></i>
+            </div>
+            <p class="text-heading font-semibold text-sm mb-1">Your cart is empty</p>
+            <p class="text-sub text-xs">Add some delicious curry puffs!</p>
+          </div>`;
+        return;
+      }
+
+      cartItemsEl.innerHTML = cart.map(item => `
+        <div class="cart-item-row flex items-center gap-3 px-4 py-3">
+          <div class="icon-circle w-10 h-10">
+            <i class="hgi hgi-stroke ${item.icon} text-[#C87A00] text-lg"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-heading font-semibold text-sm leading-tight truncate">${item.name}</p>
+            <p class="text-price text-xs mt-0.5">RM ${item.price.toFixed(2)}</p>
+          </div>
+          <!-- Qty controls -->
+          <div class="flex items-center gap-2 flex-shrink-0">
+            <button class="qty-btn" onclick="changeQty('${item.name}', -1)" aria-label="Decrease">
+              <i class="hgi hgi-stroke hgi-minus-sign text-sm"></i>
+            </button>
+            <span class="text-heading font-bold text-sm w-5 text-center">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty('${item.name}', 1)" aria-label="Increase">
+              <i class="hgi hgi-stroke hgi-add-01 text-sm"></i>
+            </button>
+          </div>
+          <!-- Remove -->
+          <button class="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer border-none flex-shrink-0"
+                  style="background:#FFE5E5"
+                  onclick="removeItem('${item.name}')" aria-label="Remove">
+            <i class="hgi hgi-stroke hgi-delete-02 text-red-500 text-sm"></i>
+          </button>
+        </div>`).join('');
+    }
+
+    /* Open / close drawer */
+    function openCart() {
+      renderCart();
+      cartOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeCart() {
+      cartOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function handleOverlayClick(e) {
+      if (e.target === cartOverlay) closeCart();
+    }
+
+    /* Escape key closes drawer */
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeCart(); closeConfirmation(); } });
+
+    /* ── Confirmation Modal ─────────────────── */
+    const SELLER_WHATSAPP = '60123456789';
+    const confirmOverlay = document.getElementById('confirmOverlay');
+    const confirmItems   = document.getElementById('confirmItems');
+    const confirmSubtotal= document.getElementById('confirmSubtotal');
+    const confirmTotal   = document.getElementById('confirmTotal');
+    const msgPreview     = document.getElementById('msgPreview');
+
+    function buildWhatsAppMessage() {
+      const now    = new Date();
+      const date   = now.toLocaleDateString('en-MY', { day:'2-digit', month:'short', year:'numeric' });
+      const time   = now.toLocaleTimeString('en-MY', { hour:'2-digit', minute:'2-digit' });
+      const total  = getTotalPrice().toFixed(2);
+
+      let lines = [];
+      lines.push('🥟 *KariPap Delights – New Order*');
+      lines.push(`📅 ${date}  🕐 ${time}`);
+      lines.push('─────────────────────');
+      cart.forEach(item => {
+        const sub = (item.price * item.qty).toFixed(2);
+        lines.push(`• ${item.name}`);
+        lines.push(`  ${item.qty} × RM ${item.price.toFixed(2)} = RM ${sub}`);
+      });
+      lines.push('─────────────────────');
+      lines.push(`💰 *Total: RM ${total}*`);
+      lines.push('');
+      lines.push('Thank you! Please confirm my order. 🙏');
+
+      return lines.join('\n');
+    }
+
+    function openConfirmation() {
+      if (cart.length === 0) return;
+
+      const total = getTotalPrice().toFixed(2);
+      confirmSubtotal.textContent = 'RM ' + total;
+      confirmTotal.textContent    = 'RM ' + total;
+
+      confirmItems.innerHTML = cart.map(item => `
+        <div class="modal-order-row flex items-center gap-3 px-4 py-2.5">
+          <div class="icon-circle w-9 h-9">
+            <i class="hgi hgi-stroke ${item.icon} text-[#C87A00] text-base"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-heading font-semibold text-sm leading-tight">${item.name}</p>
+            <p class="text-sub text-xs mt-0.5">RM ${item.price.toFixed(2)} × ${item.qty}</p>
+          </div>
+          <span class="text-price text-sm flex-shrink-0">RM ${(item.price*item.qty).toFixed(2)}</span>
+        </div>`).join('');
+
+      msgPreview.textContent = buildWhatsAppMessage();
+      confirmOverlay.classList.add('open');
+    }
+
+    function closeConfirmation() {
+      confirmOverlay.classList.remove('open');
+    }
+
+    function handleConfirmOverlayClick(e) {
+      if (e.target === confirmOverlay) closeConfirmation();
+    }
+
+    function sendToWhatsApp() {
+      const msg = buildWhatsAppMessage();
+      const url = `https://wa.me/${SELLER_WHATSAPP}?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+
+      closeConfirmation();
+      closeCart();
+      cart = [];
+      updateBadge();
+
+      showToast('Order sent! Check WhatsApp 🎉', '✅ Order sent!');
+    }
+
+    /* ── Toast ─────────────────────────────── */
+    const toast     = document.getElementById('toast');
+    const toastMsg  = document.getElementById('toastMsg');
+    const toastTitle= document.getElementById('toastTitle');
+    let toastTimer;
+
+    function showToast(msg, title = 'Added to cart!') {
+      toastTitle.textContent = title;
+      toastMsg.textContent   = msg;
+      toast.classList.remove('hidden','toast-out');
+      toast.classList.add('toast-in');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.replace('toast-in','toast-out');
+        setTimeout(() => toast.classList.add('hidden'), 320);
+      }, 2800);
+    }
+
+    /* ── Scroll reveal ─────────────────────── */
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('shown','animate__animated','animate__fadeInUp');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

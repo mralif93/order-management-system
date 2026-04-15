@@ -3,25 +3,46 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Order;
 
-class Customer extends Model
+class Customer extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $fillable = [
         'name',
         'email',
         'phone',
-        'address',
+        'address_line1',
+        'address_line2',
+        'address_line3',
         'city',
         'state',
-        'zip_code',
+        'postal_code',
         'country',
+        'email_verified_at',
+        'password',
         'is_active',
+        'is_locked',
     ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+            'is_active' => 'boolean',
+            'is_locked' => 'boolean',
+        ];
+    }
 
     public function orders(): HasMany
     {

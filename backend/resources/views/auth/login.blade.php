@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'Log In | Order Management System')
+@section('title', ($title ?? 'Log In') . ' | Order Management System')
 
 @section('content')
 <main class="flex-grow flex items-center justify-center p-6 min-h-screen bg-primary-50 dark:bg-gray-900 transition-colors duration-200">
@@ -9,11 +9,11 @@
             <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-100 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400 mb-4 animate__animated animate__flipInY transition-colors duration-200">
                 <i class="hgi-stroke hgi-login-03 text-3xl"></i>
             </div>
-            <h2 class="text-3xl font-bold text-gray-800 dark:text-white transition-colors duration-200">Welcome Back</h2>
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white transition-colors duration-200">{{ $title ?? 'Welcome Back' }}</h2>
             <p class="text-gray-500 dark:text-gray-400 mt-2 transition-colors duration-200">Please enter your details to sign in.</p>
         </div>
 
-        <form action="{{ url('login') }}" method="POST" class="space-y-5">
+        <form action="{{ isset($isAdmin) && $isAdmin ? url('admin/login') : url('login') }}" method="POST" class="space-y-5">
             @csrf
             
             <!-- Email -->

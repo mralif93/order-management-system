@@ -37,6 +37,12 @@ class AuthController extends Controller
         if ($redirect = $this->redirectIfAnyAuthenticated()) {
             return $redirect;
         }
+        // Store ?redirect in session so redirect()->intended() picks it up after login
+        if ($redirectTo = request()->query('redirect')) {
+            if (str_starts_with($redirectTo, '/')) {
+                session(['url.intended' => url($redirectTo)]);
+            }
+        }
         return view('auth.login', ['title' => 'Customer Login']);
     }
 
@@ -162,6 +168,12 @@ class AuthController extends Controller
      */
     public function showRegister()
     {
+        // Store ?redirect in session so redirect()->intended() picks it up after register
+        if ($redirectTo = request()->query('redirect')) {
+            if (str_starts_with($redirectTo, '/')) {
+                session(['url.intended' => url($redirectTo)]);
+            }
+        }
         return view('auth.register', ['title' => 'Customer Registration']);
     }
 
@@ -186,7 +198,7 @@ class AuthController extends Controller
         Auth::guard('customer')->login($customer);
         $request->session()->regenerate();
 
-        return redirect()->route('customer.dashboard')
+        return redirect()->intended(route('customer.dashboard'))
             ->with('success', 'Welcome, ' . $customer->name . '! Your account has been created successfully.');
     }
 

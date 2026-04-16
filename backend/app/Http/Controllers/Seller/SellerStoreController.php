@@ -45,7 +45,8 @@ class SellerStoreController extends Controller
                 Rule::unique('sellers', 'store_slug')->ignore($seller->id),
             ],
             'store_name' => 'nullable|string|max:100',
-            'store_bio'  => 'nullable|string|max:500',
+            'store_bio' => 'nullable|string|max:500',
+            'delivery_fee' => 'nullable|numeric|min:0|max:9999.99',
         ], [
             'store_slug.regex' => 'Slug may only contain lowercase letters, numbers, and hyphens.',
             'store_slug.unique' => 'This store name is already taken. Please choose another.',
@@ -54,7 +55,8 @@ class SellerStoreController extends Controller
         $seller->update([
             'store_slug' => strtolower(trim($request->store_slug)),
             'store_name' => $request->store_name,
-            'store_bio'  => $request->store_bio,
+            'store_bio' => $request->store_bio,
+            'delivery_fee' => $request->delivery_fee ?? 0,
         ]);
 
         return redirect()->route('seller.store.index')
@@ -70,10 +72,11 @@ class SellerStoreController extends Controller
 
         $request->validate([
             'store_name' => 'nullable|string|max:100',
-            'store_bio'  => 'nullable|string|max:500',
+            'store_bio' => 'nullable|string|max:500',
+            'delivery_fee' => 'nullable|numeric|min:0|max:9999.99',
         ]);
 
-        $seller->update($request->only('store_name', 'store_bio'));
+        $seller->update($request->only('store_name', 'store_bio', 'delivery_fee'));
 
         return redirect()->route('seller.store.index')
             ->with('success', 'Store info updated.');

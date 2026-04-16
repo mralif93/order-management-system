@@ -30,6 +30,7 @@ class Seller extends Authenticatable
         'store_slug',
         'store_name',
         'store_bio',
+        'delivery_fee',
     ];
 
     protected $hidden = [
@@ -44,6 +45,7 @@ class Seller extends Authenticatable
             'password' => 'hashed',
             'is_active' => 'boolean',
             'is_locked' => 'boolean',
+            'delivery_fee' => 'float',
         ];
     }
 

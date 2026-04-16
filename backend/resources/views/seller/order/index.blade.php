@@ -71,16 +71,24 @@
                                         class="font-black text-secondary-900 dark:text-white uppercase tracking-tight">#{{ $order->order_number }}</span>
                                 </td>
                                 <td class="py-5 px-6">
+                                    @php
+                                        $custName  = $order->customer?->name  ?? $order->guest_name  ?? 'Guest';
+                                        $custSub   = $order->customer?->email ?? $order->guest_phone ?? '';
+                                        $isGuest   = !$order->customer_id;
+                                    @endphp
                                     <div class="flex items-center gap-3">
                                         <div
-                                            class="w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 flex items-center justify-center font-bold text-xs">
-                                            {{ substr($order->customer->name ?? 'C', 0, 1) }}
+                                            class="w-8 h-8 rounded-full {{ $isGuest ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-600' : 'bg-primary-100 dark:bg-primary-900/30 text-primary-600' }} flex items-center justify-center font-bold text-xs">
+                                            {{ strtoupper(substr($custName, 0, 1)) }}
                                         </div>
                                         <div>
-                                            <p class="font-bold text-secondary-900 dark:text-white leading-none">
-                                                {{ $order->customer->name ?? 'N/A' }}</p>
-                                            <p class="text-[10px] text-secondary-400 dark:text-slate-500 mt-1 uppercase">
-                                                {{ $order->customer->email ?? '' }}</p>
+                                            <div class="flex items-center gap-1.5">
+                                                <p class="font-bold text-secondary-900 dark:text-white leading-none">{{ $custName }}</p>
+                                                @if($isGuest)
+                                                    <span class="px-1.5 py-0.5 bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 text-[9px] font-black uppercase rounded">Guest</span>
+                                                @endif
+                                            </div>
+                                            <p class="text-[10px] text-secondary-400 dark:text-slate-500 mt-1 uppercase">{{ $custSub }}</p>
                                         </div>
                                     </div>
                                 </td>
@@ -111,10 +119,13 @@
                                     </span>
                                 </td>
                                 <td class="py-5 px-6 text-right">
-                                    <a href="{{ route('seller.orders.show', $order) }}"
-                                        class="inline-flex items-center gap-2 px-4 py-2 bg-gray-50 dark:bg-slate-800 text-secondary-700 dark:text-slate-300 rounded-xl text-xs font-black hover:bg-primary-600 hover:text-white transition shadow-sm">
-                                        <i class="hgi-stroke hgi-eye text-lg"></i> Details
-                                    </a>
+                                    <div class="flex items-center justify-end gap-2">
+                                        <a href="{{ route('seller.orders.show', $order) }}"
+                                            class="p-2 text-gray-400 dark:text-slate-500 hover:text-primary-600 dark:hover:text-primary-400 transition"
+                                            title="View Details">
+                                            <i class="hgi-stroke hgi-eye text-xl"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         @empty

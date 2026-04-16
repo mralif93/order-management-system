@@ -147,12 +147,13 @@
                                     <td class="py-4 px-6 font-bold text-secondary-900 dark:text-white">
                                         {{ $order->order_number }}</td>
                                     <td class="py-4 px-6">
+                                        @php $dName = $order->customer?->name ?? $order->guest_name ?? 'Guest'; @endphp
                                         <div class="flex items-center gap-3">
                                             <div
                                                 class="w-8 h-8 rounded-full bg-gray-100 dark:bg-slate-800 flex items-center justify-center text-[10px] font-bold dark:text-slate-400">
-                                                {{ substr($order->customer->name ?? '?', 0, 2) }}
+                                                {{ strtoupper(substr($dName, 0, 2)) }}
                                             </div>
-                                            <span>{{ $order->customer->name ?? 'N/A' }}</span>
+                                            <span>{{ $dName }}</span>
                                         </div>
                                     </td>
                                     <td class="py-4 px-6">

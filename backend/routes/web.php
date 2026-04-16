@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Public\PublicController;
 use App\Http\Controllers\Public\PublicStoreController;
+use App\Http\Controllers\Public\PublicStoreOrderController;
 use App\Http\Controllers\Seller\SellerStoreController;
 use App\Http\Controllers\Dashboard\AdminDashboardController;
 use App\Http\Controllers\Dashboard\AdminProductController;
@@ -21,6 +22,8 @@ use App\Http\Controllers\Auth\AuthController;
 // Public Routes
 Route::get('/', [PublicController::class, 'index'])->name('public.index');
 Route::get('/shop/{slug}', [PublicStoreController::class, 'show'])->name('public.store');
+Route::post('/shop/{slug}/order', [PublicStoreOrderController::class, 'store'])->name('public.store.order');
+Route::get('/shop/{slug}/lookup', [PublicStoreOrderController::class, 'lookupCustomer'])->name('public.store.lookup');
 
 // Customer Auth Routes
 Route::middleware('guest:customer')->group(function () {

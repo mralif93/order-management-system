@@ -13,6 +13,7 @@ use App\Models\OrderItem;
 use App\Models\Payment;
 use App\Models\Coupon;
 use App\Models\LandingSession;
+use App\Models\Seller;
 
 class Order extends Model
 {
@@ -20,6 +21,9 @@ class Order extends Model
 
     protected $fillable = [
         'customer_id',
+        'seller_id',
+        'guest_name',
+        'guest_phone',
         'order_number',
         'order_status',
         'subtotal_amount',
@@ -29,11 +33,30 @@ class Order extends Model
         'total_amount',
         'currency',
         'notes',
+        'seller_remarks',
+        'source',
     ];
 
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function seller(): BelongsTo
+    {
+        return $this->belongsTo(Seller::class);
+    }
+
+    /** Returns customer display name — works for both registered and guest customers */
+    public function getCustomerNameAttribute(): string
+    {
+        return $this->customer->name ?? $this->guest_name ?? 'Guest';
+    }
+
+    /** Returns customer display phone */
+    public function getCustomerPhoneAttribute(): ?string
+    {
+        return $this->customer->phone ?? $this->guest_phone;
     }
 
     public function items(): HasMany

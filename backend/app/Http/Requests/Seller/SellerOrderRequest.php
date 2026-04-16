@@ -20,6 +20,7 @@ class SellerOrderRequest extends FormRequest
         return [
             'order_status' => 'required|string|in:pending,processing,shipped,delivered,cancelled',
             'notes' => 'nullable|string',
+            'seller_remarks' => 'nullable|string|max:1000',
         ];
     }
 }

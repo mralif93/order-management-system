@@ -92,6 +92,21 @@
                             class="w-full px-4 py-3.5 rounded-2xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 font-medium text-secondary-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none resize-none">{{ old('store_bio') }}</textarea>
                         @error('store_bio') <p class="text-xs text-red-500 font-bold mt-2 pl-1">{{ $message }}</p> @enderror
                     </div>
+                    <div>
+                        <label
+                            class="block text-xs font-black text-secondary-600 dark:text-slate-400 uppercase tracking-widest mb-2">Delivery
+                            Fee (MYR)</label>
+                        <div
+                            class="flex items-center rounded-2xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 overflow-hidden focus-within:ring-2 focus-within:ring-primary-500">
+                            <span
+                                class="px-4 py-3.5 text-sm font-bold text-secondary-400 dark:text-slate-500 bg-gray-100 dark:bg-slate-700 border-r border-gray-200 dark:border-slate-700 select-none">MYR</span>
+                            <input type="number" name="delivery_fee" value="{{ old('delivery_fee', '0.00') }}" min="0"
+                                max="9999.99" step="0.01" placeholder="0.00"
+                                class="flex-1 px-4 py-3.5 bg-transparent border-none focus:ring-0 font-black text-secondary-900 dark:text-white text-sm outline-none">
+                        </div>
+                        @error('delivery_fee') <p class="text-xs text-red-500 font-bold mt-2 pl-1">{{ $message }}</p> @enderror
+                        <p class="text-xs text-secondary-400 dark:text-slate-500 mt-2 pl-1">Set to 0 for free delivery.</p>
+                    </div>
                     <button type="submit"
                         class="inline-flex items-center gap-2 px-8 py-3.5 bg-primary-600 text-white rounded-2xl font-black text-sm hover:bg-primary-700 transition shadow-lg shadow-primary-600/20">
                         <i class="hgi-stroke hgi-store-01"></i> Claim Store URL
@@ -150,6 +165,24 @@
                                 <textarea name="store_bio" rows="3"
                                     class="w-full px-4 py-3 rounded-2xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 font-medium text-secondary-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-500 outline-none resize-none">{{ old('store_bio', $seller->store_bio) }}</textarea>
                             </div>
+                            <div>
+                                <label
+                                    class="block text-xs font-black text-secondary-600 dark:text-slate-400 uppercase tracking-widest mb-2">Delivery
+                                    Fee (MYR)</label>
+                                <div
+                                    class="flex items-center rounded-2xl border border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800 overflow-hidden focus-within:ring-2 focus-within:ring-primary-500">
+                                    <span
+                                        class="px-4 py-3 text-sm font-bold text-secondary-400 dark:text-slate-500 bg-gray-100 dark:bg-slate-700 border-r border-gray-200 dark:border-slate-700 select-none">MYR</span>
+                                    <input type="number" name="delivery_fee"
+                                        value="{{ old('delivery_fee', number_format($seller->delivery_fee ?? 0, 2)) }}" min="0"
+                                        max="9999.99" step="0.01" placeholder="0.00"
+                                        class="flex-1 px-4 py-3 bg-transparent border-none focus:ring-0 font-black text-secondary-900 dark:text-white text-sm outline-none">
+                                </div>
+                                @error('delivery_fee') <p class="text-xs text-red-500 font-bold mt-1 pl-1">{{ $message }}</p>
+                                @enderror
+                                <p class="text-xs text-secondary-400 dark:text-slate-500 mt-2 pl-1">Set to 0 for free
+                                    delivery.</p>
+                            </div>
                             <button type="submit"
                                 class="w-full py-3 bg-secondary-900 dark:bg-slate-700 text-white rounded-2xl font-black text-sm hover:bg-primary-600 transition">
                                 Save Changes
@@ -185,7 +218,8 @@
                                     </div>
                                     <div class="flex-1 min-w-0">
                                         <p class="font-black text-secondary-900 dark:text-white text-sm truncate">
-                                            {{ $product->name }}</p>
+                                            {{ $product->name }}
+                                        </p>
                                         <p class="text-xs text-secondary-400 dark:text-slate-500 font-medium">
                                             <span class="font-mono">{{ $product->sku }}</span>
                                             &nbsp;·&nbsp; MYR {{ number_format($product->price, 2) }}
@@ -203,8 +237,8 @@
                                         @csrf
                                         <button type="submit"
                                             class="px-4 py-2 rounded-xl text-xs font-black transition
-                                                            {{ $product->is_featured ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100' : 'bg-secondary-900 dark:bg-slate-700 text-white hover:bg-primary-600' }}
-                                                            {{ !$product->is_featured && $featuredCount >= 10 ? 'opacity-40 cursor-not-allowed' : '' }}"
+                                                                                    {{ $product->is_featured ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100' : 'bg-secondary-900 dark:bg-slate-700 text-white hover:bg-primary-600' }}
+                                                                                    {{ !$product->is_featured && $featuredCount >= 10 ? 'opacity-40 cursor-not-allowed' : '' }}"
                                             {{ !$product->is_featured && $featuredCount >= 10 ? 'disabled' : '' }}>
                                             {{ $product->is_featured ? 'Remove' : 'Add' }}
                                         </button>

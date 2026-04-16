@@ -51,6 +51,7 @@ class AdminSellerStoreController extends Controller
             ],
             'store_name' => 'nullable|string|max:100',
             'store_bio' => 'nullable|string|max:500',
+            'delivery_fee' => 'nullable|numeric|min:0|max:9999.99',
         ], [
             'store_slug.regex' => 'Slug may only contain lowercase letters, numbers, and hyphens.',
             'store_slug.unique' => 'This store slug is already taken.',
@@ -61,6 +62,7 @@ class AdminSellerStoreController extends Controller
             'store_slug' => strtolower(trim($request->store_slug)),
             'store_name' => $request->store_name,
             'store_bio' => $request->store_bio,
+            'delivery_fee' => $request->delivery_fee ?? 0,
         ]);
 
         return redirect()->route('admin.stores.show', $seller)
@@ -100,6 +102,7 @@ class AdminSellerStoreController extends Controller
             ],
             'store_name' => 'nullable|string|max:100',
             'store_bio' => 'nullable|string|max:500',
+            'delivery_fee' => 'nullable|numeric|min:0|max:9999.99',
         ], [
             'store_slug.regex' => 'Slug may only contain lowercase letters, numbers, and hyphens.',
             'store_slug.unique' => 'This store slug is already taken by another seller.',
@@ -109,6 +112,7 @@ class AdminSellerStoreController extends Controller
             'store_slug' => $request->store_slug ? strtolower(trim($request->store_slug)) : $seller->store_slug,
             'store_name' => $request->store_name,
             'store_bio' => $request->store_bio,
+            'delivery_fee' => $request->delivery_fee ?? 0,
         ]);
 
         // Redirect back to seller detail when called from the embedded seller panel

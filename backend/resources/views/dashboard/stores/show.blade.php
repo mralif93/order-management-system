@@ -8,7 +8,7 @@
     <!-- Page Header -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div class="flex items-center gap-4">
-            <a href="{{ route('admin.stores.index') }}"
+            <a href="javascript:history.back()"
                 class="w-10 h-10 rounded-2xl bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 flex items-center justify-center text-secondary-400 hover:text-primary-600 transition shadow-sm">
                 <i class="hgi-stroke hgi-arrow-left-01 text-xl"></i>
             </a>

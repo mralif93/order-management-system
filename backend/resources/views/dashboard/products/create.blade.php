@@ -5,7 +5,7 @@
 @section('content')
     <div class="max-w-[1600px] mx-auto space-y-8 pb-12 transition-colors duration-300">
         <!-- Breadcrumbs/Back -->
-        <a href="{{ route('admin.products.index') }}"
+        <a href="javascript:history.back()"
             class="inline-flex items-center gap-2 text-sm font-bold text-secondary-500 dark:text-slate-400 hover:text-primary-600 transition group">
             <i class="hgi-stroke hgi-arrow-left-01 group-hover:-translate-x-1 transition-transform"></i>
             <span>Back to Products</span>

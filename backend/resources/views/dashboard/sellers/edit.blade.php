@@ -6,7 +6,7 @@
 <div class="max-w-[1600px] mx-auto space-y-8 pb-12 transition-colors duration-300">
     <!-- Header -->
     <div class="flex items-center gap-4 animate__animated animate__fadeInLeft">
-        <a href="{{ route('admin.sellers.show', $seller) }}" class="text-secondary-400 hover:text-primary-600 transition-colors">
+        <a href="javascript:history.back()" class="text-secondary-400 hover:text-primary-600 transition-colors">
             <i class="hgi-stroke hgi-arrow-left-01 text-2xl"></i>
         </a>
         <div>

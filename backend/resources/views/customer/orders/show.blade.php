@@ -12,7 +12,7 @@
 
         <!-- Breadcrumb / Back -->
         <div class="flex items-center justify-between animate__animated animate__fadeInDown">
-            <a href="{{ route('customer.orders.index') }}"
+            <a href="javascript:history.back()"
                 class="inline-flex items-center gap-2 text-sm font-bold text-secondary-500 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 transition group">
                 <i class="hgi-stroke hgi-arrow-left-01 group-hover:-translate-x-1 transition-transform"></i>
                 Back to My Orders

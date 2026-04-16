@@ -8,7 +8,7 @@
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div class="animate__animated animate__fadeInLeft">
             <div class="flex items-center gap-3 mb-2">
-                <a href="{{ route('admin.customers.index') }}" class="text-secondary-400 hover:text-primary-600 transition-colors">
+                <a href="javascript:history.back()" class="text-secondary-400 hover:text-primary-600 transition-colors">
                     <i class="hgi-stroke hgi-arrow-left-01 text-2xl"></i>
                 </a>
                 <span class="text-secondary-400 font-black text-xs uppercase tracking-widest">Customer Details</span>

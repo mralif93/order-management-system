@@ -12,10 +12,31 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     /**
+     * Redirect to the correct dashboard if any guard is already authenticated.
+     * Returns a redirect response or null if no guard is authenticated.
+     */
+    private function redirectIfAnyAuthenticated(): ?\Illuminate\Http\RedirectResponse
+    {
+        if (Auth::guard('web')->check()) {
+            return redirect()->route('admin.dashboard');
+        }
+        if (Auth::guard('seller')->check()) {
+            return redirect()->route('seller.dashboard');
+        }
+        if (Auth::guard('customer')->check()) {
+            return redirect()->route('customer.dashboard');
+        }
+        return null;
+    }
+
+    /**
      * Show the login form for customers.
      */
     public function showLogin()
     {
+        if ($redirect = $this->redirectIfAnyAuthenticated()) {
+            return $redirect;
+        }
         return view('auth.login', ['title' => 'Customer Login']);
     }
 
@@ -44,6 +65,10 @@ class AuthController extends Controller
      */
     public function showAdminLogin()
     {
+        if ($redirect = $this->redirectIfAnyAuthenticated()) {
+            return $redirect;
+        }
+
         return view('auth.login', ['title' => 'Admin Login', 'isAdmin' => true]);
     }
 
@@ -72,6 +97,9 @@ class AuthController extends Controller
      */
     public function showSellerLogin()
     {
+        if ($redirect = $this->redirectIfAnyAuthenticated()) {
+            return $redirect;
+        }
         return view('auth.login', ['title' => 'Seller Login', 'isSeller' => true]);
     }
 
@@ -184,18 +212,23 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
+        $redirectTo = '/';
+
         if (Auth::guard('web')->check()) {
             Auth::guard('web')->logout();
+            $redirectTo = route('admin.login');
         } elseif (Auth::guard('customer')->check()) {
             Auth::guard('customer')->logout();
+            $redirectTo = route('login');
         } elseif (Auth::guard('seller')->check()) {
             Auth::guard('seller')->logout();
+            $redirectTo = route('seller.login');
         }
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect($redirectTo);
     }
 
     public function sellerLogout(Request $request)

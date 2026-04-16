@@ -11,6 +11,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Redirect unauthenticated users to the correct login page based on the route they tried to access
         $middleware->redirectGuestsTo(fn(\Illuminate\Http\Request $request) => match (true) {
             $request->is('admin*') => route('admin.login'),
             $request->is('seller*') => route('seller.login'),

@@ -1,4 +1,2 @@
-import axios from 'axios';
-window.axios = axios;
+// Bootstrap your JavaScript modules here
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

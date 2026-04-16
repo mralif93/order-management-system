@@ -39,6 +39,30 @@ class PublicStoreOrderController extends Controller
      * Look up a registered customer by phone number.
      * Called by the shop landing page on phone-field blur.
      */
+    /**
+     * Mark an order as "WhatsApp opened" by the customer.
+     * Called immediately after window.open(wa.me/...) fires.
+     * Only stamps if not already stamped (first-open wins).
+     */
+    public function markWaSent(Request $request, string $slug, string $orderNumber): JsonResponse
+    {
+        $seller = Seller::where('store_slug', $slug)->where('is_active', true)->firstOrFail();
+
+        $order = Order::where('seller_id', $seller->id)
+            ->where('order_number', $orderNumber)
+            ->firstOrFail();
+
+        if (is_null($order->whatsapp_sent_at)) {
+            $order->update(['whatsapp_sent_at' => now()]);
+        }
+
+        return response()->json(['ok' => true, 'whatsapp_sent_at' => $order->whatsapp_sent_at]);
+    }
+
+    /**
+     * Look up a registered customer by phone number.
+     * Called by the shop landing page on phone-field blur.
+     */
     public function lookupCustomer(Request $request, string $slug): JsonResponse
     {
         // $slug is present so the route can be scoped to a specific shop (future use)

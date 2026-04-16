@@ -35,6 +35,11 @@ class Order extends Model
         'notes',
         'seller_remarks',
         'source',
+        'whatsapp_sent_at',
+    ];
+
+    protected $casts = [
+        'whatsapp_sent_at' => 'datetime',
     ];
 
     public function customer(): BelongsTo

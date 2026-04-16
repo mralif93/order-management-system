@@ -58,8 +58,12 @@
                             <tr class="hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition duration-200">
                                 <td class="py-5 px-6 font-black text-secondary-900 dark:text-white">#{{ $order->order_number }}
                                 </td>
-                                <td class="py-5 px-6 text-secondary-500 dark:text-slate-400">
-                                    {{ $order->created_at->format('M d, Y') }}
+                                <td class="py-5 px-6">
+                                    <p class="text-secondary-600 dark:text-slate-400 font-medium">
+                                        {{ $order->created_at->format('M d, Y') }}</p>
+                                    <p
+                                        class="text-[10px] text-secondary-400 dark:text-slate-500 uppercase mt-0.5 tracking-widest">
+                                        {{ $order->created_at->format('h:i A') }}</p>
                                 </td>
                                 <td class="py-5 px-6">
                                     <span

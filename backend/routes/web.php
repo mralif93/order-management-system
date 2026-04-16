@@ -24,6 +24,7 @@ Route::get('/', [PublicController::class, 'index'])->name('public.index');
 Route::get('/shop/{slug}', [PublicStoreController::class, 'show'])->name('public.store');
 Route::post('/shop/{slug}/order', [PublicStoreOrderController::class, 'store'])->name('public.store.order');
 Route::get('/shop/{slug}/lookup', [PublicStoreOrderController::class, 'lookupCustomer'])->name('public.store.lookup');
+Route::patch('/shop/{slug}/order/{orderNumber}/wa-sent', [PublicStoreOrderController::class, 'markWaSent'])->name('public.store.wa_sent');
 
 // Customer Auth Routes
 Route::middleware('guest:customer')->group(function () {

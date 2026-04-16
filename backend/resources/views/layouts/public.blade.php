@@ -141,64 +141,44 @@
     </main>
 
     <!-- ── Footer ──────────────────────────────────────────────────────── -->
-    <footer class="bg-gray-900 dark:bg-gray-950 text-gray-400 pt-10 pb-6 border-t border-gray-800 mt-auto">
-        <div class="container mx-auto px-4 sm:px-6">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
-                <!-- Brand col -->
-                <div class="col-span-2 md:col-span-1">
-                    <div class="flex items-center gap-2 mb-3">
-                        <div class="w-8 h-8 rounded-full bg-primary-500/20 flex items-center justify-center">
-                            <i class="hgi-stroke hgi-store-01 text-primary-400 text-lg"></i>
-                        </div>
-                        <span class="text-white font-bold">OMS</span>
+    <footer class="bg-gray-900 dark:bg-gray-950 border-t border-gray-800 mt-auto">
+        <div class="container mx-auto px-4 sm:px-6 py-4">
+
+            <!-- Single compact row -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+
+                <!-- Left: brand -->
+                <div class="flex items-center gap-2 shrink-0">
+                    <div class="w-6 h-6 rounded-full bg-primary-500/20 flex items-center justify-center">
+                        <i class="hgi-stroke hgi-store-01 text-primary-400 text-xs"></i>
                     </div>
-                    <p class="text-xs leading-relaxed">Smart order management for growing businesses. Sell more, manage
-                        less.</p>
-                    <div class="flex gap-3 mt-4 text-base">
-                        <a href="#" class="hover:text-primary-400 transition"><i class="hgi-stroke hgi-twitter"></i></a>
-                        <a href="#" class="hover:text-primary-400 transition"><i
-                                class="hgi-stroke hgi-linkedin-01"></i></a>
-                        <a href="#" class="hover:text-primary-400 transition"><i class="hgi-stroke hgi-github"></i></a>
-                        <a href="#" class="hover:text-primary-400 transition"><i
-                                class="hgi-stroke hgi-instagram"></i></a>
-                    </div>
+                    <span class="text-white text-xs font-bold tracking-wide">Order Management System</span>
                 </div>
-                <!-- Product col -->
-                <div>
-                    <h4 class="text-white text-sm font-semibold mb-3">Product</h4>
-                    <ul class="space-y-2 text-xs">
-                        <li><a href="#features" class="hover:text-primary-400 transition">Features</a></li>
-                        <li><a href="#how-it-works" class="hover:text-primary-400 transition">How It Works</a></li>
-                        <li><a href="#pricing" class="hover:text-primary-400 transition">Pricing</a></li>
-                        <li><a href="{{ url('/register') }}" class="hover:text-primary-400 transition">Get Started
-                                Free</a></li>
-                    </ul>
+
+                <!-- Centre: quick links -->
+                <nav class="flex items-center gap-4 text-[11px] text-gray-500 flex-wrap justify-center">
+                    <a href="#features" class="hover:text-primary-400 transition-colors">Features</a>
+                    <a href="#how-it-works" class="hover:text-primary-400 transition-colors">How It Works</a>
+                    <a href="#pricing" class="hover:text-primary-400 transition-colors">Pricing</a>
+                    <a href="#" class="hover:text-primary-400 transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-primary-400 transition-colors">Terms</a>
+                </nav>
+
+                <!-- Right: socials + copyright -->
+                <div class="flex items-center gap-3 shrink-0">
+                    <a href="#" aria-label="Twitter"
+                        class="text-gray-500 hover:text-primary-400 transition-colors text-sm"><i
+                            class="hgi-stroke hgi-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"
+                        class="text-gray-500 hover:text-primary-400 transition-colors text-sm"><i
+                            class="hgi-stroke hgi-linkedin-01"></i></a>
+                    <a href="#" aria-label="GitHub"
+                        class="text-gray-500 hover:text-primary-400 transition-colors text-sm"><i
+                            class="hgi-stroke hgi-github"></i></a>
+                    <span class="text-gray-700 select-none">·</span>
+                    <p class="text-[11px] text-gray-600 whitespace-nowrap">&copy; 2026 OMS</p>
                 </div>
-                <!-- Company col -->
-                <div>
-                    <h4 class="text-white text-sm font-semibold mb-3">Company</h4>
-                    <ul class="space-y-2 text-xs">
-                        <li><a href="#" class="hover:text-primary-400 transition">About Us</a></li>
-                        <li><a href="#" class="hover:text-primary-400 transition">Blog</a></li>
-                        <li><a href="#" class="hover:text-primary-400 transition">Careers</a></li>
-                        <li><a href="#" class="hover:text-primary-400 transition">Contact</a></li>
-                    </ul>
-                </div>
-                <!-- Legal col -->
-                <div>
-                    <h4 class="text-white text-sm font-semibold mb-3">Legal</h4>
-                    <ul class="space-y-2 text-xs">
-                        <li><a href="#" class="hover:text-primary-400 transition">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-primary-400 transition">Terms of Service</a></li>
-                        <li><a href="#" class="hover:text-primary-400 transition">Cookie Policy</a></li>
-                        <li><a href="#" class="hover:text-primary-400 transition">Security</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div
-                class="border-t border-gray-800 pt-5 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs">
-                <p>&copy; 2026 Order Management System. All rights reserved.</p>
-                <p>Built with <span class="text-primary-400">♥</span> for Malaysian SMEs</p>
+
             </div>
         </div>
     </footer>

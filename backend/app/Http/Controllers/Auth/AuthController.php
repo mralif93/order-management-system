@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\auth;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -31,7 +31,7 @@ class AuthController extends Controller
 
         if (Auth::guard('customer')->attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended(route('customer.index'));
+            return redirect()->intended(route('customer.dashboard'));
         }
 
         return back()->withErrors([
@@ -59,7 +59,7 @@ class AuthController extends Controller
 
         if (Auth::guard('web')->attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended(route('dashboard.index'));
+            return redirect()->intended(route('admin.dashboard'));
         }
 
         return back()->withErrors([
@@ -68,11 +68,73 @@ class AuthController extends Controller
     }
 
     /**
+     * Show the login form for sellers.
+     */
+    public function showSellerLogin()
+    {
+        return view('auth.login', ['title' => 'Seller Login', 'isSeller' => true]);
+    }
+
+    /**
+     * Handle a seller authentication attempt.
+     */
+    public function sellerLogin(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (Auth::guard('seller')->attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate();
+            return redirect()->intended(route('seller.dashboard'));
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
+    }
+
+    /**
+     * Show the registration form for sellers.
+     */
+    public function showSellerRegister()
+    {
+        return view('auth.register', ['title' => 'Seller Registration', 'isSeller' => true]);
+    }
+
+    /**
+     * Handle the registration request for sellers.
+     */
+    public function sellerRegister(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:30',
+            'email' => 'required|string|email|max:255|unique:sellers',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $seller = \App\Models\Seller::create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'is_active' => true,
+        ]);
+
+        Auth::guard('seller')->login($seller);
+        $request->session()->regenerate();
+
+        return redirect()->route('seller.dashboard');
+    }
+
+    /**
      * Show the registration form.
      */
     public function showRegister()
     {
-        return view('auth.register');
+        return view('auth.register', ['title' => 'Customer Registration']);
     }
 
     /**
@@ -96,7 +158,8 @@ class AuthController extends Controller
         Auth::guard('customer')->login($customer);
         $request->session()->regenerate();
 
-        return redirect()->route('customer.index');
+        return redirect()->route('customer.dashboard')
+            ->with('success', 'Welcome, ' . $customer->name . '! Your account has been created successfully.');
     }
 
     /**
@@ -125,6 +188,8 @@ class AuthController extends Controller
             Auth::guard('web')->logout();
         } elseif (Auth::guard('customer')->check()) {
             Auth::guard('customer')->logout();
+        } elseif (Auth::guard('seller')->check()) {
+            Auth::guard('seller')->logout();
         }
 
         $request->session()->invalidate();
@@ -132,4 +197,13 @@ class AuthController extends Controller
 
         return redirect('/');
     }
+
+    public function sellerLogout(Request $request)
+    {
+        Auth::guard('seller')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('seller.login');
+    }
+
 }

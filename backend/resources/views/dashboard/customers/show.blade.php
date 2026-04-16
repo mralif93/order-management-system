@@ -8,7 +8,7 @@
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div class="animate__animated animate__fadeInLeft">
             <div class="flex items-center gap-3 mb-2">
-                <a href="{{ route('customers.index') }}" class="text-secondary-400 hover:text-primary-600 transition-colors">
+                <a href="{{ route('admin.customers.index') }}" class="text-secondary-400 hover:text-primary-600 transition-colors">
                     <i class="hgi-stroke hgi-arrow-left-01 text-2xl"></i>
                 </a>
                 <span class="text-secondary-400 font-black text-xs uppercase tracking-widest">Customer Details</span>
@@ -17,7 +17,7 @@
         </div>
         
         <div class="flex items-center gap-3 animate__animated animate__fadeInRight">
-            <form action="{{ route('customers.update', $customer) }}" method="POST">
+            <form action="{{ route('admin.customers.update', $customer) }}" method="POST">
                 @csrf
                 @method('PATCH')
                 <input type="hidden" name="is_locked" value="{{ $customer->is_locked ? '0' : '1' }}">
@@ -27,7 +27,7 @@
                 </button>
             </form>
 
-            <form action="{{ route('customers.update', $customer) }}" method="POST">
+            <form action="{{ route('admin.customers.update', $customer) }}" method="POST">
                 @csrf
                 @method('PATCH')
                 <input type="hidden" name="is_active" value="{{ $customer->is_active ? '0' : '1' }}">
@@ -151,7 +151,7 @@
             <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-100 dark:border-slate-800 overflow-hidden">
                 <div class="p-6 border-b border-gray-50 dark:border-slate-800 flex items-center justify-between">
                     <h3 class="font-black text-secondary-900 dark:text-white">Recent Orders</h3>
-                    <a href="{{ route('orders.index', ['search' => $customer->email]) }}" class="text-primary-600 text-xs font-black uppercase tracking-widest hover:underline">View All</a>
+                    <a href="{{ route('admin.orders.index', ['search' => $customer->email]) }}" class="text-primary-600 text-xs font-black uppercase tracking-widest hover:underline">View All</a>
                 </div>
                 
                 <div class="overflow-x-auto">
@@ -193,7 +193,7 @@
                                     </span>
                                 </td>
                                 <td class="py-4 px-6 text-right">
-                                    <a href="{{ route('orders.show', $order) }}" class="text-primary-600 hover:text-primary-700 transition-colors">
+                                    <a href="{{ route('admin.orders.show', $order) }}" class="text-primary-600 hover:text-primary-700 transition-colors">
                                         <i class="hgi-stroke hgi-eye text-xl"></i>
                                     </a>
                                 </td>

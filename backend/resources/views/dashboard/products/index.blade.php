@@ -11,7 +11,7 @@
             <p class="text-secondary-500 dark:text-slate-400 mt-2 font-medium">Manage your inventory, SKU details, and pricing.</p>
         </div>
         <div class="animate__animated animate__fadeInRight">
-            <a href="{{ route('products.create') }}" class="px-6 py-3 bg-primary-600 text-white rounded-2xl font-black hover:bg-primary-700 hover:shadow-lg hover:shadow-primary-600/20 transition-all flex items-center gap-2 shadow-md">
+            <a href="{{ route('admin.products.create') }}" class="px-6 py-3 bg-primary-600 text-white rounded-2xl font-black hover:bg-primary-700 hover:shadow-lg hover:shadow-primary-600/20 transition-all flex items-center gap-2 shadow-md">
                 <i class="hgi-stroke hgi-plus text-xl"></i> Add Product
             </a>
         </div>
@@ -21,7 +21,7 @@
     <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-100 dark:border-slate-800 overflow-hidden flex flex-col">
         <!-- Table Search/Filters -->
         <div class="p-6 border-b border-gray-50 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <form action="{{ route('products.index') }}" method="GET" class="relative group w-full sm:w-96">
+            <form action="{{ route('admin.products.index') }}" method="GET" class="relative group w-full sm:w-96">
                 <i class="hgi-stroke hgi-search-01 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-slate-500 group-focus-within:text-primary-600 transition-colors"></i>
                 <input 
                     type="text" 
@@ -73,8 +73,8 @@
                         </td>
                         <td class="py-5 px-6">
                             <div class="flex items-center gap-2">
-                                <div class="w-1.5 h-1.5 rounded-full {{ $product->stock_quantity > 10 ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse' }}"></div>
-                                <span class="font-bold text-secondary-700 dark:text-slate-300">{{ $product->stock_quantity }} units</span>
+                                <div class="w-1.5 h-1.5 rounded-full {{ $product->quantity > 10 ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse' }}"></div>
+                                <span class="font-bold text-secondary-700 dark:text-slate-300">{{ $product->quantity }} units</span>
                             </div>
                         </td>
                         <td class="py-5 px-6">
@@ -86,10 +86,10 @@
                         </td>
                         <td class="py-5 px-6 text-right">
                             <div class="flex items-center justify-end gap-2">
-                                <a href="{{ route('products.edit', $product) }}" class="p-2 text-gray-400 dark:text-slate-500 hover:text-primary-600 dark:hover:text-primary-400 transition">
+                                <a href="{{ route('admin.products.edit', $product) }}" class="p-2 text-gray-400 dark:text-slate-500 hover:text-primary-600 dark:hover:text-primary-400 transition">
                                     <i class="hgi-stroke hgi-pencil-edit-01 text-xl"></i>
                                 </a>
-                                <form action="{{ route('products.destroy', $product) }}" method="POST" onsubmit="return confirm('Delete this product?')" class="inline">
+                                <form action="{{ route('admin.products.destroy', $product) }}" method="POST" onsubmit="return confirm('Delete this product?')" class="inline">
                                     @csrf @method('DELETE')
                                     <button class="p-2 text-gray-400 dark:text-slate-500 hover:text-red-600 transition">
                                         <i class="hgi-stroke hgi-delete-02 text-xl"></i>
@@ -106,7 +106,7 @@
                                     <i class="hgi-stroke hgi-package text-3xl"></i>
                                 </div>
                                 <p class="text-secondary-500 dark:text-slate-400 font-bold tracking-tight">No products found.</p>
-                                <a href="{{ route('products.create') }}" class="text-sm font-bold text-primary-600 uppercase tracking-widest mt-2 hover:underline">Add your first product</a>
+                                <a href="{{ route('admin.products.create') }}" class="text-sm font-bold text-primary-600 uppercase tracking-widest mt-2 hover:underline">Add your first product</a>
                             </div>
                         </td>
                     </tr>

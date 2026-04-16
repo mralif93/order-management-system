@@ -21,7 +21,7 @@
     <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-100 dark:border-slate-800 overflow-hidden flex flex-col">
         <!-- Table Search/Filters -->
         <div class="p-6 border-b border-gray-50 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <form action="{{ route('orders.index') }}" method="GET" class="relative group w-full sm:w-96">
+            <form action="{{ route('admin.orders.index') }}" method="GET" class="relative group w-full sm:w-96">
                 <i class="hgi-stroke hgi-search-01 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-slate-500 group-focus-within:text-primary-600 transition-colors"></i>
                 <input 
                     type="text" 
@@ -95,7 +95,7 @@
                             </span>
                         </td>
                         <td class="py-5 px-6 text-right">
-                            <a href="{{ route('orders.show', $order) }}" class="inline-flex items-center gap-2 px-4 py-2 bg-gray-50 dark:bg-slate-800 text-secondary-700 dark:text-slate-300 rounded-xl text-xs font-black hover:bg-primary-600 hover:text-white transition shadow-sm">
+                            <a href="{{ route('admin.orders.show', $order) }}" class="inline-flex items-center gap-2 px-4 py-2 bg-gray-50 dark:bg-slate-800 text-secondary-700 dark:text-slate-300 rounded-xl text-xs font-black hover:bg-primary-600 hover:text-white transition shadow-sm">
                                 <i class="hgi-stroke hgi-eye text-lg"></i> Details
                             </a>
                         </td>

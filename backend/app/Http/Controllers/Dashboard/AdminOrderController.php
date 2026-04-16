@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\dashboard;
+namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\AdminOrderRequest;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
-class OrderController extends Controller
+class AdminOrderController extends Controller
 {
     /**
      * Display a listing of orders.
@@ -17,9 +18,9 @@ class OrderController extends Controller
 
         if ($request->has('search')) {
             $query->where('order_number', 'like', '%' . $request->search . '%')
-                  ->orWhereHas('customer', function($q) use ($request) {
-                      $q->where('name', 'like', '%' . $request->search . '%');
-                  });
+                ->orWhereHas('customer', function ($q) use ($request) {
+                    $q->where('name', 'like', '%' . $request->search . '%');
+                });
         }
 
         if ($request->has('status') && $request->status != '') {
@@ -37,22 +38,18 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         $order->load(['customer', 'items.product', 'payments']);
-        
+
         return view('dashboard.orders.show', compact('order'));
     }
 
     /**
      * Update the specified order status in storage.
      */
-    public function update(Request $request, Order $order)
+    public function update(AdminOrderRequest $request, Order $order)
     {
-        $validated = $request->validate([
-            'order_status' => 'required|string|in:pending,processing,shipped,delivered,cancelled',
-        ]);
+        $order->update($request->validated());
 
-        $order->update($validated);
-
-        return redirect()->route('orders.show', $order)
+        return redirect()->route('admin.orders.show', $order)
             ->with('success', 'Order status updated successfully.');
     }
 }

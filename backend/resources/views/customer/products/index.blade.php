@@ -3,70 +3,123 @@
 @section('title', 'Browse Catalog | OMS Portal')
 
 @section('content')
-<div class="max-w-7xl mx-auto space-y-12 pb-12 transition-colors duration-300">
-    <!-- Catalog Header -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 animate__animated animate__fadeIn">
-        <div class="max-w-2xl">
-            <h1 class="text-4xl font-black text-secondary-900 dark:text-white tracking-tighter uppercase leading-none mb-4">The Catalog</h1>
-            <p class="text-secondary-500 dark:text-slate-400 font-medium leading-relaxed">Discover our premium range of products. Every item is curated for quality and excellence, delivered straight to your doorstep.</p>
-        </div>
-        <div class="flex items-center gap-3">
-            <div class="relative group">
-                <i class="hgi-stroke hgi-search-01 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-slate-500 group-focus-within:text-primary-600 transition-colors"></i>
-                <input type="text" placeholder="Search catalog..." class="pl-11 pr-6 py-3 bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl text-sm focus:ring-2 focus:ring-primary-600/50 outline-none dark:text-slate-200 w-full sm:w-64 shadow-sm transition-all">
-            </div>
-            <button class="p-3 bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl text-secondary-400 hover:text-primary-600 transition shadow-sm">
-                <i class="hgi-stroke hgi-filter text-xl"></i>
-            </button>
-        </div>
-    </div>
+    <div class="max-w-[1600px] mx-auto space-y-8 pb-12 transition-colors duration-300">
 
-    <!-- Product Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        @forelse($products as $product)
-        <div class="group bg-white dark:bg-slate-900 rounded-[32px] overflow-hidden border border-gray-100 dark:border-slate-800 hover:shadow-2xl hover:shadow-primary-600/10 transition-all duration-500 hover:-translate-y-2 animate__animated animate__fadeInUp" style="animation-delay: {{ $loop->index * 100 }}ms">
-            <!-- Product Image Placeholder -->
-            <div class="aspect-square bg-gray-50 dark:bg-slate-800 flex items-center justify-center relative overflow-hidden">
-                <i class="hgi-stroke hgi-package text-6xl text-gray-200 dark:text-slate-700 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-700"></i>
-                <div class="absolute top-4 right-4 translate-x-12 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500">
-                    <button class="w-10 h-10 rounded-full bg-white/90 dark:bg-slate-800/90 text-primary-600 dark:text-primary-400 shadow-xl backdrop-blur-sm flex items-center justify-center hover:bg-primary-600 hover:text-white transition">
-                        <i class="hgi-stroke hgi-favourite text-lg font-black"></i>
-                    </button>
+        <!-- Page Header -->
+        <div
+            class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 animate__animated animate__fadeInDown">
+            <div>
+                <h1 class="text-3xl font-black text-secondary-900 dark:text-white tracking-tight leading-none uppercase">
+                    Browse Catalog</h1>
+                <p class="text-secondary-500 dark:text-slate-400 mt-2 font-medium">Explore available products and add them
+                    to your orders.</p>
+            </div>
+            <a href="{{ route('customer.orders.index') }}"
+                class="inline-flex items-center gap-2 px-5 py-3 bg-primary-600 text-white rounded-2xl font-black text-sm hover:bg-primary-700 transition shadow-lg shadow-primary-600/20">
+                <i class="hgi-stroke hgi-shopping-bag-01 text-lg"></i> My Orders
+            </a>
+        </div>
+
+        <!-- Products Table Card -->
+        <div
+            class="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-gray-100 dark:border-slate-800 overflow-hidden animate__animated animate__fadeInUp">
+
+            <!-- Table Header -->
+            <div
+                class="p-6 border-b border-gray-50 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <h2 class="text-lg font-black text-secondary-900 dark:text-white tracking-tighter uppercase">All Products
+                </h2>
+                <div class="flex items-center bg-gray-100 dark:bg-slate-800 rounded-lg px-3 py-1.5 w-full sm:w-64">
+                    <i class="hgi-stroke hgi-search-01 text-gray-400 dark:text-slate-500 mr-2 text-sm"></i>
+                    <input type="text" placeholder="Search products..."
+                        class="bg-transparent border-none focus:ring-0 text-sm w-full outline-none dark:text-slate-200">
                 </div>
-                <!-- Badge -->
-                @if($product->stock_quantity < 5)
-                <span class="absolute bottom-4 left-4 px-3 py-1 bg-amber-100/90 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 text-[10px] font-black uppercase tracking-widest rounded-lg backdrop-blur-sm">Low Stock</span>
-                @endif
             </div>
 
-            <!-- Content -->
-            <div class="p-6">
-                <div class="flex justify-between items-start mb-2">
-                    <h3 class="text-lg font-black text-secondary-900 dark:text-white tracking-tight leading-tight line-clamp-1 truncate grow mr-2">{{ $product->name }}</h3>
-                    <span class="text-sm font-black text-primary-600 dark:text-primary-400">{{ $product->currency }} {{ number_format($product->price, 2) }}</span>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr
+                            class="bg-gray-50/50 dark:bg-slate-800/50 text-secondary-400 dark:text-slate-500 text-[10px] uppercase font-black tracking-widest">
+                            <th class="py-4 px-6">Product</th>
+                            <th class="py-4 px-6">SKU</th>
+                            <th class="py-4 px-6">Stock</th>
+                            <th class="py-4 px-6 text-right">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody
+                        class="divide-y divide-gray-50 dark:divide-slate-800 text-sm text-secondary-700 dark:text-slate-300">
+                        @forelse($products as $product)
+                            @php
+                                if ($product->quantity <= 0) {
+                                    $stockCls = 'bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400';
+                                    $stockLabel = 'Out of Stock';
+                                } elseif ($product->quantity <= 10) {
+                                    $stockCls = 'bg-amber-100 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400';
+                                    $stockLabel = 'Low Stock';
+                                } else {
+                                    $stockCls = 'bg-emerald-100 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400';
+                                    $stockLabel = 'In Stock';
+                                }
+                            @endphp
+                            <tr class="hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition duration-200">
+                                <td class="py-5 px-6">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-9 h-9 rounded-xl bg-primary-100 dark:bg-primary-900/20 flex items-center justify-center">
+                                            <i
+                                                class="hgi-stroke hgi-package text-primary-600 dark:text-primary-400 text-base"></i>
+                                        </div>
+                                        <span
+                                            class="font-black text-secondary-900 dark:text-white">{{ $product->name }}</span>
+                                    </div>
+                                </td>
+                                <td class="py-5 px-6">
+                                    <span
+                                        class="font-mono text-xs bg-gray-100 dark:bg-slate-800 text-secondary-500 dark:text-slate-400 px-2 py-1 rounded-lg">{{ $product->sku ?? '—' }}</span>
+                                </td>
+                                <td class="py-5 px-6">
+                                    <span
+                                        class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider {{ $stockCls }}">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-current mr-2 opacity-50"></span>
+                                        {{ $stockLabel }}
+                                    </span>
+                                </td>
+                                <td class="py-5 px-6 text-right font-black text-secondary-900 dark:text-white">
+                                    {{ $product->currency ?? 'MYR' }} {{ number_format($product->price, 2) }}
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="py-20 text-center">
+                                    <div class="flex flex-col items-center gap-4">
+                                        <div
+                                            class="w-20 h-20 rounded-full bg-gray-50 dark:bg-slate-800 flex items-center justify-center">
+                                            <i
+                                                class="hgi-stroke hgi-store-01 text-4xl text-gray-200 dark:text-slate-700"></i>
+                                        </div>
+                                        <div>
+                                            <h3
+                                                class="text-lg font-black text-secondary-900 dark:text-white uppercase tracking-tighter">
+                                                No products available</h3>
+                                            <p class="text-secondary-400 dark:text-slate-500 font-medium text-sm mt-1">Check
+                                                back later for new arrivals.</p>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            @if($products->hasPages())
+                <div class="p-6 border-t border-gray-100 dark:border-slate-800">
+                    {{ $products->links() }}
                 </div>
-                <p class="text-xs text-secondary-400 dark:text-slate-500 font-medium mb-6 line-clamp-1 uppercase tracking-widest">{{ $product->sku }}</p>
-                
-                <button class="w-full py-4 bg-gray-50 dark:bg-slate-800/50 text-secondary-900 dark:text-slate-300 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] group-hover:bg-primary-600 group-hover:text-white group-hover:shadow-lg group-hover:shadow-primary-600/30 transition-all duration-300 flex items-center justify-center gap-2">
-                    <i class="hgi-stroke hgi-shopping-cart-01 text-lg"></i> Add to Cart
-                </button>
-            </div>
+            @endif
         </div>
-        @empty
-        <div class="col-span-full py-20 text-center">
-            <div class="flex flex-col items-center gap-4">
-                <i class="hgi-stroke hgi-package text-6xl text-gray-200 dark:text-slate-800"></i>
-                <p class="text-secondary-500 dark:text-slate-500 font-bold uppercase tracking-widest text-sm">Our shelves are empty at the moment.</p>
-            </div>
-        </div>
-        @endforelse
     </div>
-
-    <!-- Pagination -->
-    @if($products->hasPages())
-    <div class="p-8 border-t dark:border-slate-800">
-        {{ $products->links() }}
-    </div>
-    @endif
-</div>
 @endsection
+

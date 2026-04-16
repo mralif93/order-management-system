@@ -3,10 +3,10 @@
 @section('title', 'Order Details | #' . $order->order_number . ' | OMS Admin')
 
 @section('content')
-<div class="max-w-6xl mx-auto space-y-8 pb-12 transition-colors duration-300">
+<div class="max-w-[1600px] mx-auto space-y-8 pb-12 transition-colors duration-300">
     <!-- Breadcrumbs/Back -->
     <div class="flex items-center justify-between">
-        <a href="{{ route('orders.index') }}" class="inline-flex items-center gap-2 text-sm font-bold text-secondary-500 dark:text-slate-400 hover:text-primary-600 transition group">
+        <a href="{{ route('admin.orders.index') }}" class="inline-flex items-center gap-2 text-sm font-bold text-secondary-500 dark:text-slate-400 hover:text-primary-600 transition group">
             <i class="hgi-stroke hgi-arrow-left-01 group-hover:-translate-x-1 transition-transform"></i>
             <span>Back to Orders</span>
         </a>
@@ -44,7 +44,7 @@
                 <p class="text-lg font-black {{ $statusColor }} uppercase tracking-tighter">{{ $order->order_status }}</p>
             </div>
             <div class="w-px h-10 bg-gray-100 dark:bg-slate-800"></div>
-            <form action="{{ route('orders.update', $order) }}" method="POST" class="flex items-center gap-2">
+            <form action="{{ route('admin.orders.update', $order) }}" method="POST" class="flex items-center gap-2">
                 @csrf @method('PUT')
                 <select name="order_status" class="bg-gray-50 dark:bg-slate-800 text-xs font-bold border-none rounded-xl focus:ring-2 focus:ring-primary-600/50 outline-none pr-8 py-2.5 dark:text-slate-200">
                     <option value="pending" {{ $order->order_status == 'pending' ? 'selected' : '' }}>Pending</option>

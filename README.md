@@ -38,12 +38,12 @@ A streamlined interface for a premium shopping experience.
 - **Profile Management**: Maintain personal details and preferred settings.
 - **Personalized Catalog**: Browse merchants and products in a curated environment.
 
-### 4. 🌐 Public Storefronts
-LinkTree-style landing pages optimized for mobile and conversions.
+### 4. 🌐 Public Storefronts & Marketplace
+LinkTree-style landing pages and a centralized marketplace optimized for mobile.
+- **Redesigned Landing Page**: Modern UI with tiered **Pricing Plans** (Starter, Growth, Enterprise).
 - **Guest Checkout**: Seamlessly place orders without an account using Name & Phone lookup.
-- **WhatsApp Integration**: High-conversion ordering flow that directs buyers straight to the merchant's WhatsApp.
-- **WhatsApp Event Tracking**: Real-time tracking of when customers click to message the merchant.
-- **Interactive Menu**: Animated product cards with real-time cart state management.
+- **WhatsApp Integration**: High-conversion ordering flow with **Event Tracking** to monitor engagement.
+- **Interactive Experience**: Scroll-reveal animations and real-time cart state management.
 
 ---
 
@@ -51,10 +51,11 @@ LinkTree-style landing pages optimized for mobile and conversions.
 
 - **Multi-Guard Authentication**: Secure, independent access for Admins, Sellers, and Customers.
 - **Guest Order Lifecycle**: End-to-end tracking for non-registered users via persistent `guest_name` and `guest_phone` records.
+- **Dynamic Pricing tiers**: Built-in support for different subscription levels and marketplace fees.
 - **Adaptive UI**: Full support for **Light and Dark Mode** with high-contrast, professional palettes.
 - **Modern Aesthetics**: Leverages **Glassmorphism**, smooth micro-animations (Animate.css), and premium rounded icons (HugeIcons).
 - **WhatsApp Smart-Ordering**: Automatically formats complex orders into readable WhatsApp messages.
-- **Performance Optimized**: Replaced bulky dependencies like Axios with native **Fetch API** for a faster, more secure frontend experience.
+- **Performance Optimized**: Native **Fetch API** integration for a faster, more secure frontend experience.
 
 ---
 

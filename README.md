@@ -2,7 +2,7 @@
 
 [![Laravel](https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel)](https://laravel.com)
 [![PHP](https://img.shields.io/badge/PHP-8.3-777BB4?style=for-the-badge&logo=php)](https://valet.laravel.com)
-[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3.x-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com)
 [![HugeIcons](https://img.shields.io/badge/Icons-HugeIcons-000000?style=for-the-badge)](https://hugeicons.com)
 
 A state-of-the-art, enterprise-grade **Multi-Merchant Order Management System**. Designed for scalability and high-performance, OMS provides a unified platform for administrators, merchants (sellers), and customers to interact seamlessly in a modern marketplace ecosystem.
@@ -27,7 +27,8 @@ The ultimate control center for marketplace administrators.
 ### 2. 🏪 Seller Portal (Merchant Hub)
 A powerful, intuitive dashboard for business owners.
 - **Inventory Management**: Create, edit, and categorize products with rich descriptions and pricing.
-- **Order Fulfillment**: Real-time order tracking, status updates, and historical logs.
+- **Order Fulfillment**: Real-time order tracking with status updates and **Internal Seller Remarks**.
+- **Delivery Configuration**: Set custom **Delivery Fees** per merchant.
 - **Storefront Customization**: Manage the public LinkTree-style landing page.
 - **Sales Insights**: Merchant-specific performance metrics.
 
@@ -39,19 +40,21 @@ A streamlined interface for a premium shopping experience.
 
 ### 4. 🌐 Public Storefronts
 LinkTree-style landing pages optimized for mobile and conversions.
+- **Guest Checkout**: Seamlessly place orders without an account using Name & Phone lookup.
 - **WhatsApp Integration**: High-conversion ordering flow that directs buyers straight to the merchant's WhatsApp.
+- **WhatsApp Event Tracking**: Real-time tracking of when customers click to message the merchant.
 - **Interactive Menu**: Animated product cards with real-time cart state management.
-- **Responsive Design**: Pixel-perfect layout across all device sizes.
 
 ---
 
 ## ✨ Premium Features
 
 - **Multi-Guard Authentication**: Secure, independent access for Admins, Sellers, and Customers.
+- **Guest Order Lifecycle**: End-to-end tracking for non-registered users via persistent `guest_name` and `guest_phone` records.
 - **Adaptive UI**: Full support for **Light and Dark Mode** with high-contrast, professional palettes.
 - **Modern Aesthetics**: Leverages **Glassmorphism**, smooth micro-animations (Animate.css), and premium rounded icons (HugeIcons).
-- **WhatsApp Smart-Ordering**: Automatically formats complex orders into readable WhatsApp messages for merchants.
-- **Database Integrity**: Robust relational schema with support for hierarchical roles and multi-tenant data isolation.
+- **WhatsApp Smart-Ordering**: Automatically formats complex orders into readable WhatsApp messages.
+- **Performance Optimized**: Replaced bulky dependencies like Axios with native **Fetch API** for a faster, more secure frontend experience.
 
 ---
 
@@ -59,9 +62,9 @@ LinkTree-style landing pages optimized for mobile and conversions.
 
 | Layer | Technology |
 | :--- | :--- |
-| **Backend** | Laravel 11 (PHP 8.3) |
-| **Frontend** | Blade Templates / Vanilla JavaScript |
-| **Styling** | Tailwind CSS (Configuration-driven) |
+| **Backend** | Laravel 11 / PHP 8.3 |
+| **Frontend** | Blade Templates / Vanilla JavaScript (**Fetch API**) |
+| **Styling** | Tailwind CSS 4.x |
 | **Icons** | HugeIcons (Stroke Rounded) |
 | **Database** | PostgreSQL / MySQL |
 | **Animation** | Animate.css / GSAP |
